@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ERDucate — Lesson 8: SQL Queries & Lost & Found</title>
+<link rel="icon" href="ERDucate.ico">
+<link rel="stylesheet" href="lesson8.css"> 
+</head>
+<body>
+  
+<div class="page" role="main">
+  <h1>Lesson 8 — Introduction to SQL & Querying Databases</h1>
+
+  <!-- Lesson Objectives (kept) -->
+  <div class="modal-card" style="margin-bottom:18px;">
+    <h2>Lesson 8 Objectives</h2>
+    <p>At the end of the lesson, the student should be able to:</p>
+    <ul>
+      <li>Explain the purpose of SQL and its role in database querying</li>
+      <li>Use basic SQL commands (<strong>SELECT</strong>, <strong>FROM</strong>, <strong>WHERE</strong>) to retrieve data</li>
+      <li>Apply SQL queries to solve simple data problems efficiently</li>
+    </ul>
+</div>
+
+
+  <!-- Story Scene -->
+  <div class="lesson-container" aria-label="Lesson scene">
+    <div class="scene-bg" role="img" aria-label="Computer lab background"></div>
+    <div class="characters" aria-hidden="true">
+      <!-- Replace src with real images or SVG as desired -->
+      <img src="studentfrankie.png" alt="Frankie" class="student student1" id="student1Img">
+      <img src="john.png" alt="John" class="student student2" id="student2Img">
+      <img src="Student-Mia.png" alt="Mia" class="student student3" id="student3Img">
+    </div>
+
+    <!-- Speech bubbles -->
+    <div class="speech student1-bubble" id="student1Bubble" role="status" aria-live="polite"></div>
+    <div class="speech student2-bubble" id="student2Bubble" role="status" aria-live="polite"></div>
+    <div class="speech student3-bubble" id="student3Bubble" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- Pause & reflect (appears during flow) -->
+  <div id="pauseReflect" class="pause-reflect" aria-hidden="true">
+    <h3>Pause & Reflect</h3>
+    <p id="reflectQuestion" style="color:var(--muted)">How would you use WHERE to find items owned by "John"? Write one short SQL query in your notebook.</p>
+    <div style="margin-top:10px; display:flex; justify-content:center; gap:10px;">
+      <button class="btn" id="continueBtn">Continue</button>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls" role="navigation" aria-label="Lesson Controls">
+    <button class="btn" id="startBtn">Start Lesson</button>
+    <button class="btn secondary" id="nextBtn" disabled>Next</button>
+    <button class="btn secondary" id="skipBtn">Skip to Quiz</button>
+    <!-- extra small controls -->
+    <button class="btn small" id="showDbBtn" title="Show database summary">Show Summary</button>
+    <button class="btn small secondary" id="openGuidedBtn" title="Guided practice">Guided Practice</button>
+    <button class="btn small" id="openGlossaryBtn" title="Glossary">Glossary</button>
+  </div>
+
+</div>
+
+<!-- Intro Modal (preserve your original intro modal exactly as requested) -->
+<div class="modal show" id="introModal" aria-hidden="false" role="dialog" aria-label="Intro — Lesson Overview">
+  <div class="modal-card" role="document">
+    <h2>Introduction — Introduction to SQL & Querying Databases</h2>
+    <p>
+  Frankie introduces <strong>SQL</strong> to help John retrieve data efficiently, while Mia observes. 
+  They explore basic SQL commands — <strong>SELECT</strong>, <strong>FROM</strong>, and <strong>WHERE</strong> — 
+  to query tables, filter results, and solve small tasks like finding lost items.  
+  By using SQL, John learns how to communicate with the database, quickly locate specific data, 
+  and apply queries to solve simple problems without manually searching through messy tables.
+</p>
+
+    <div class="modal-actions" style="margin-top:14px;">
+      <button class="btn secondary" id="closeModalBtn">Read Later</button>
+      <button class="btn" id="beginBtn">Start Lesson</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating DB Info -->
+<div id="dbInfo" role="dialog" aria-hidden="true" aria-label="Summary — SQL & Querying Databases">
+  <button class="btn small" style="float:right; background:var(--maroon); color:#fff; border:none;" aria-label="Close summary" id="closeDbX">✖</button>
+  <h3>Summary — SQL & Querying Databases</h3>
+  <p><strong>SELECT:</strong> Retrieves data from columns</p>
+  <p><strong>FROM:</strong> Table to query</p>
+  <p><strong>WHERE:</strong> Filter rows by conditions</p>
+  <table aria-label="Example lost and found table">
+    <thead>
+      <tr><th>ItemID</th><th>Item</th><th>Status</th><th>Owner</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>201</td><td>Watch</td><td>Lost</td><td>John</td></tr>
+      <tr><td>202</td><td>Notebook</td><td>Found</td><td>Mia</td></tr>
+      <tr><td>203</td><td>Pencil</td><td>Lost</td><td>Frankie</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--muted); font-size:13px;">Example SQL: <code>SELECT Item FROM LostAndFound WHERE Status='Lost';</code></p>
+  <a href="quiz8.html" class="quiz-link-btn" id="quizLink">Take Quiz 8</a>
+</div>
+
+<!-- Guided Practice modal -->
+<div class="modal" id="guidedModal" aria-hidden="true" role="dialog" aria-label="Guided Practice">
+  <div class="modal-card" role="document">
+    <button class="modal-close" id="closeGuidedX" aria-label="Close guided practice">✖</button>
+    <h2>📝 Guided Practice — Write a simple query</h2>
+    <p class="guided-note">Case: Use the LostAndFound table to retrieve the items that are "Lost". Write the SQL query below (one line).</p>
+    <div style="margin-top:8px;">
+      <label for="guidedAnswer" style="font-weight:700;">Your SQL Query:</label>
+      <textarea id="guidedAnswer" placeholder="Example: SELECT Item FROM LostAndFound WHERE Status='Lost';"></textarea>
+      <div class="practice-buttons" style="margin-top:8px; display:flex; gap:8px; justify-content:flex-start;">
+        <button class="btn" id="showHintBtn">Need Hint</button>
+        <button class="btn secondary" id="showAnswerBtn">Show Sample Answer</button>
+      </div>
+      <div id="guidedHint" class="hint" style="margin-top:8px;">
+        Hint: Use SELECT + the column you want, FROM table name, and WHERE column = 'value'.
+      </div>
+      <div id="guidedSample" class="answer" style="margin-top:8px;">
+Sample answer:
+SELECT Item FROM LostAndFound WHERE Status='Lost';
+      </div>
+    </div>
+
+    <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+      <button class="btn secondary" id="closeGuidedBtn">Close</button>
+      <button class="btn" id="submitGuidedBtn">Submit & Proceed to Quiz</button>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock modal -->
+<div class="modal" id="unlockModal" aria-hidden="true" role="dialog" aria-label="Unlock Guided Practice">
+  <div class="modal-card" role="document">
+    <button class="modal-close" id="closeUnlockX" aria-label="Close unlock modal">✖</button>
+    <h2>Unlock Guided Practice</h2>
+    <p>By unlocking guided practice you mark this lesson's guided activity as complete and may proceed to Quiz 8.</p>
+    <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px;">
+      <button class="btn secondary" id="cancelUnlockBtn">Cancel</button>
+      <button class="btn" id="confirmUnlockBtn">Unlock & Proceed</button>
+    </div>
+  </div>
+</div>
+
+<!-- Help modal -->
+<div class="modal" id="helpModal" aria-hidden="true" role="dialog" aria-label="Learner Support">
+  <div class="modal-card" role="document">
+    <button class="modal-close" id="closeHelpX" aria-label="Close help">✖</button>
+    <h2>📚 Learner Support</h2>
+    <p><strong>FAQ</strong></p>
+    <ul>
+      <li><b>Where to start?</b> — Click "Start Lesson" to begin the story-based walkthrough.</li>
+      <li><b>How to save progress?</b> — Progress auto-saves in your browser (localStorage).</li>
+      <li><b>How to practice?</b> — Open Guided Practice and submit your SQL sample to proceed to the quiz.</li>
+    </ul>
+    <p style="margin-top:8px;"><strong>Tip:</strong> Use WHERE to filter results so you don't get everything at once.</p>
+    <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+      <button class="btn" id="closeHelpBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Glossary modal -->
+<div class="modal" id="glossaryModal" aria-hidden="true" role="dialog" aria-label="Glossary">
+  <div class="modal-card" role="document">
+    <button class="modal-close" id="closeGlossaryX" aria-label="Close glossary">✖</button>
+    <h2>Glossary — Key Terms</h2>
+    <dl style="margin-top:6px; color:var(--muted);">
+      <dt style="font-weight:700;">SELECT</dt>
+      <dd style="margin:0 0 8px 0;">SQL command used to specify which columns to retrieve from a table.</dd>
+      <dt style="font-weight:700;">FROM</dt>
+      <dd style="margin:0 0 8px 0;">Specifies which table to fetch data from.</dd>
+      <dt style="font-weight:700;">WHERE</dt>
+      <dd style="margin:0 0 8px 0;">Condition to filter rows returned by the query.</dd>
+      <dt style="font-weight:700;">Table</dt>
+      <dd style="margin:0 0 8px 0;">A collection of rows and columns that store data.</dd>
+    </dl>
+    <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+      <button class="btn" id="closeGlossaryBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile glossary popup -->
+<div id="mobileGlossaryPopup" role="dialog" aria-hidden="true">
+  <p id="mobileGlossaryText" style="color:#fff; margin:0;"></p>
+  <div style="margin-top:8px;">
+    <button class="btn small" onclick="hideGlossaryPopup()">Close</button>
+  </div>
+</div>
+
+<!-- Floating Action Buttons -->
+<div class="fab-group" aria-hidden="false">
+  <button class="fab glossary" id="fabGlossary" title="Glossary">G</button>
+  <button class="fab practice" id="fabPractice" title="Guided Practice">P</button>
+  <button class="fab help" id="fabHelp" title="Help">?</button>
+</div>
+<script src="scriptlesson8.js"></script> 
+</body>
+</html>

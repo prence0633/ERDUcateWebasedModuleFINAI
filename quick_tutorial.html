@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ERDucate Quick Tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="ERDucate.ico">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background:url("Image.png");
+  color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+header {
+  background: linear-gradient(135deg, #800000, #a83232);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+header .title { 
+  font-size: 1.4rem; 
+  font-weight: 700; 
+  font-family: 'Poppins', sans-serif;
+}
+header .nav-buttons button {
+  background: #fff;
+  border: none;
+  color: #800000;
+  padding: 8px 16px;
+  margin-left: 10px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+header .nav-buttons button:hover {
+  background: #a83232;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex-grow: 1;
+  animation: fadeIn 0.8s ease;
+}
+
+h1 { 
+  text-align: center; 
+  color:#fff; 
+  margin-bottom: 8px; 
+  font-family: 'Poppins', sans-serif;
+}
+
+.tagline { 
+  text-align: center; 
+  font-style: italic; 
+  color:#fff; 
+  margin-bottom: 24px; 
+}
+
+.card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.card h2 {
+  color: #800000;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+footer {
+  text-align: center;
+  background: linear-gradient(135deg, #800000, #a83232);
+  color: #fff;
+  padding: 16px;
+  font-size: 0.9rem;
+  margin-top: 40px;
+  box-shadow: 0 -3px 8px rgba(0,0,0,0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .container { margin: 20px auto; padding: 0 16px; }
+  h1 { font-size: 1.4rem; }
+  .card { padding: 20px; }
+}
+@media (max-width: 480px) {
+  header { padding: 12px 16px; }
+  header .title { font-size: 1.1rem; text-align: center; width: 100%; }
+  .container { margin: 16px auto; padding: 0 12px; }
+  .card { padding: 16px; border-radius: 12px; }
+  .card h2 { font-size: 1.1rem; }
+  footer { font-size: 0.8rem; padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title">ERDucate Quick Tutorial</div>
+  <div class="nav-buttons">
+    <button onclick="goHome()">🏠 Home</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+</header>
+
+<div class="container">
+  <h1>📺 Quick Tutorial</h1>
+  <p class="tagline">“Watch this video to learn how to use ERDucate!”</p>
+
+  <div class="card">
+    <h2>🎥 Watch Now</h2>
+    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+      <iframe 
+        src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+        title="ERDucate Quick Tutorial" 
+        frameborder="0" 
+        allowfullscreen
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:12px;">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>ERDucate Developer © 2025 | Technological University of the Philippines</p>
+</footer>
+
+<script>
+  function logout() {
+    localStorage.removeItem('loggedInUser');
+    window.location.href = 'login.html';
+  }
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+</script>
+
+</body>
+</html>
